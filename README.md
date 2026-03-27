@@ -3,7 +3,7 @@
 
 A web-based system for managing road transportation infrastructure, hazard reporting, maintenance scheduling, and traffic monitoring for the local community.
 
----
+
 
 ## Features
 
@@ -15,7 +15,7 @@ A web-based system for managing road transportation infrastructure, hazard repor
 - **Engineer Module** – Monitor infrastructure projects and inspection findings
 - **Public Map** – View recent reports on an interactive map (Leaflet.js + OpenStreetMap)
 
----
+
 
 ## Tech Stack
 
@@ -27,7 +27,7 @@ A web-based system for managing road transportation infrastructure, hazard repor
 - **Database:** MySQL (`rtim`)
 - **Server:** Apache (XAMPP / Docker)
 
----
+
 
 ## Requirements
 
@@ -36,7 +36,7 @@ A web-based system for managing road transportation infrastructure, hazard repor
 - Composer
 - Apache with `mod_rewrite` enabled
 
----
+
 
 ## Installation
 
@@ -69,7 +69,7 @@ A web-based system for managing road transportation infrastructure, hazard repor
 
 7. Visit `http://localhost/lucia-road-trans-lgu` in your browser.
 
----
+
 
 ## User Roles
 
@@ -82,9 +82,9 @@ A web-based system for managing road transportation infrastructure, hazard repor
 | Treasurer | Budget and financial management |
 | Engineer | Project and inspection monitoring |
 
----
+
 
 ## License
 
-© 2024 Road Transportation Management System. All rights reserved.  
+© 2026 Road Transportation Management System. All rights reserved.  
 Local Government Unit - Transportation Department
