@@ -1,4 +1,4 @@
-# Road Transportation and Infrastructure Monitorig System (RTIM)
+# Road Transportation and Infrastructure Monitoring System (RTIM)
 ### Local Government Unit - Transportation Department
 
 A web-based system for managing road transportation infrastructure, hazard reporting, maintenance scheduling, and traffic monitoring for the local community.
