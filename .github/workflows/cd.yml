@@ -12,35 +12,37 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: staging
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Download build artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: app-build
         path: artifacts/
-    
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.5.0
-    
+
     - name: Terraform Init
       run: terraform init
       working-directory: ./terraform
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    
+
     - name: Terraform Plan
       run: terraform plan -var="environment=staging"
       working-directory: ./terraform
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    
+
     - name: Deploy with Ansible
       run: |
         ansible-playbook -i inventory/staging ansible/playbook.yml \
@@ -52,22 +54,24 @@ jobs:
     needs: deploy-staging
     runs-on: ubuntu-latest
     environment: production
-    if: github.ref == 'refs/heads/main'
-    
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Download build artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: app-build
         path: artifacts/
-    
+        run-id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.5.0
-    
+
     - name: Terraform Apply Production
       run: |
         terraform init
@@ -76,7 +80,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    
+
     - name: Deploy to Production
       run: |
         ansible-playbook -i inventory/production ansible/playbook.yml \
