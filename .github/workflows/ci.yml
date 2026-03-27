@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     services:
       mysql:
         image: mysql:8.0
@@ -22,57 +22,57 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
         extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, gd
         coverage: xdebug
-    
+
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
-    
+
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-    
+
     - name: Copy environment file
       run: cp .env.example .env || echo "DB_HOST=127.0.0.1" > .env
-    
+
     - name: Run PHP syntax check
       run: find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
-    
+
     - name: Run security check
       run: composer audit || true
 
   build:
     needs: test
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
-    
+
     - name: Install dependencies
       run: composer install --no-dev --optimize-autoloader
-    
+
     - name: Create deployment artifact
       run: |
         mkdir -p artifacts
         tar -czf artifacts/app.tar.gz --exclude='.git' --exclude='node_modules' --exclude='tests' .
-    
+
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: app-build
         path: artifacts/
