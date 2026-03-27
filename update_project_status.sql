@@ -1,0 +1,1 @@
+ALTER TABLE projects MODIFY status ENUM('pending', 'approved', 'under_construction', 'completed', 'on_hold') DEFAULT 'pending';

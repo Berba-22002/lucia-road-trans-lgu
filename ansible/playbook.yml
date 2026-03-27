@@ -1,0 +1,128 @@
+---
+- name: Deploy LGU RTIM Application
+  hosts: webservers
+  become: true
+  vars:
+    app_dir: /var/www/html/rtim
+    db_name: "{{ environment }}_rtim"
+    db_user: rtim_user
+    db_password: "{{ lookup('env', 'DB_PASS') }}"
+    app_version: "{{ app_version | default('main') }}"
+
+  tasks:
+
+    # ── System Packages ──────────────────────────────
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Apache, PHP 8.2, MySQL client, unzip
+      apt:
+        name:
+          - apache2
+          - php8.2
+          - php8.2-mysql
+          - php8.2-mbstring
+          - php8.2-xml
+          - php8.2-curl
+          - php8.2-gd
+          - php8.2-zip
+          - mysql-client
+          - unzip
+          - git
+        state: present
+
+    # ── Apache Config ────────────────────────────────
+    - name: Enable mod_rewrite (for .htaccess URL rewriting)
+      apache2_module:
+        name: rewrite
+        state: present
+      notify: Restart Apache
+
+    - name: Set AllowOverride All for app directory
+      copy:
+        dest: /etc/apache2/sites-available/rtim.conf
+        content: |
+          <VirtualHost *:80>
+            ServerName lucia-road-trans.local-government-unit-1-ph.com
+            DocumentRoot {{ app_dir }}
+            <Directory {{ app_dir }}>
+              AllowOverride All
+              Require all granted
+            </Directory>
+            ErrorLog ${APACHE_LOG_DIR}/rtim_error.log
+            CustomLog ${APACHE_LOG_DIR}/rtim_access.log combined
+          </VirtualHost>
+      notify: Restart Apache
+
+    - name: Enable RTIM site
+      command: a2ensite rtim.conf
+      notify: Restart Apache
+
+    - name: Disable default site
+      command: a2dissite 000-default.conf
+      notify: Restart Apache
+
+    # ── Composer ─────────────────────────────────────
+    - name: Install Composer
+      shell: |
+        curl -sS https://getcomposer.org/installer | php
+        mv composer.phar /usr/local/bin/composer
+      args:
+        creates: /usr/local/bin/composer
+
+    # ── Deploy App ───────────────────────────────────
+    - name: Extract application artifact
+      unarchive:
+        src: /tmp/app.tar.gz
+        dest: "{{ app_dir }}"
+        remote_src: yes
+        owner: www-data
+        group: www-data
+
+    - name: Install PHP dependencies via Composer
+      composer:
+        command: install
+        working_dir: "{{ app_dir }}"
+        no_dev: yes
+
+    # ── Environment File ─────────────────────────────
+    - name: Write .env file
+      template:
+        src: env.j2
+        dest: "{{ app_dir }}/.env"
+        owner: www-data
+        group: www-data
+        mode: '0600'
+
+    # ── Uploads Directory ────────────────────────────
+    - name: Create uploads subdirectories
+      file:
+        path: "{{ app_dir }}/uploads/{{ item }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      loop:
+        - hazard_reports
+        - ovr_evidence
+        - project-requests
+        - advisories
+        - completion
+        - proofs
+        - face_recognition_uploads
+        - reports
+
+    # ── File Permissions ─────────────────────────────
+    - name: Set app directory ownership
+      file:
+        path: "{{ app_dir }}"
+        owner: www-data
+        group: www-data
+        recurse: yes
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted

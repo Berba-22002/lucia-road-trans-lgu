@@ -1,0 +1,42 @@
+# Environment files
+.env
+.env.local
+.env.production
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build artifacts
+/artifacts/
+*.tar.gz
+
+# Logs
+*.log
+/logs/
+
+# Cache
+/cache/
+/tmp/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Ansible
+*.retry
+
+# Docker
+.dockerignore

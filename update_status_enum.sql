@@ -1,0 +1,2 @@
+-- Update reports table status enum to include 'archived'
+ALTER TABLE reports MODIFY COLUMN status ENUM('pending', 'in_progress', 'inspection_ended', 'done', 'escalated', 'archived') DEFAULT 'pending';

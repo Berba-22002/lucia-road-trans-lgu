@@ -1,0 +1,96 @@
+RTIM SYSTEM — TEST CASES PER USER ROLE (OVERALL)
+=====================================================================================================
+
+RESIDENT
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-ID       | Test Case Description            | Precondition         | Steps                                | Expected Result              | Priority |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-RES-01   | Register new resident account    | Not registered       | Fill form → Submit                   | Account created, OTP sent    | High     |
+| TC-RES-02   | Login with valid credentials     | Registered account   | Enter email + password → OTP         | Dashboard loaded             | High     |
+| TC-RES-03   | Submit hazard report             | Logged in            | Fill form → Attach photo → Submit    | Report submitted             | High     |
+| TC-RES-04   | View report status               | Report submitted     | Navigate to Reports History          | Correct status displayed     | High     |
+| TC-RES-05   | Receive traffic alert            | Alert sent by admin  | Check notifications                  | Alert visible in list        | High     |
+| TC-RES-06   | View and pay OVR ticket          | Ticket issued        | Navigate to My Tickets → Pay         | Payment processed            | High     |
+| TC-RES-07   | View public advisories           | Logged in            | Navigate to Public Advisories        | Advisories listed correctly  | Medium   |
+| TC-RES-08   | Submit feedback                  | Logged in            | Fill feedback form → Submit          | Feedback saved               | Low      |
+| TC-RES-09   | Update notification settings     | Logged in            | Toggle notification preferences      | Settings saved               | Low      |
+| TC-RES-10   | Logout                           | Logged in            | Click logout                         | Session ended, redirected    | Medium   |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+
+INSPECTOR
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-ID       | Test Case Description            | Precondition         | Steps                                | Expected Result              | Priority |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-INS-01   | Login as inspector               | Inspector account    | Enter credentials + OTP              | Inspector dashboard loaded   | High     |
+| TC-INS-02   | View assigned reports            | Reports assigned     | Navigate to Assigned Reports         | Only assigned reports shown  | High     |
+| TC-INS-03   | Conduct inspection & submit      | Assigned report      | Open → Fill findings → Upload → Submit| Findings saved, admin notified| High    |
+| TC-INS-04   | Issue OVR ticket                 | Violation found      | Fill OVR form → Submit               | Ticket created & linked      | High     |
+| TC-INS-05   | View inspection history          | Past inspections     | Navigate to Inspection History       | All past inspections listed  | Medium   |
+| TC-INS-06   | View minor/major reports         | Reports exist        | Navigate to Minor/Major tabs         | Correct reports per category | Medium   |
+| TC-INS-07   | View performance report          | Logged in            | Navigate to Performance Report       | Metrics displayed correctly  | Low      |
+| TC-INS-08   | Receive notification on assign   | Admin assigns report | Check notifications                  | Notification received        | High     |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+
+MAINTENANCE TEAM
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-ID       | Test Case Description            | Precondition         | Steps                                | Expected Result              | Priority |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-MNT-01   | Login as maintenance staff       | Maintenance account  | Enter credentials + OTP              | Maintenance dashboard loaded | High     |
+| TC-MNT-02   | View assigned road tasks         | Tasks assigned       | Navigate to Assigned Road Maintenance| Tasks listed correctly       | High     |
+| TC-MNT-03   | Update task progress             | Assigned task        | Open task → Enter progress % → Save  | Progress updated in DB       | High     |
+| TC-MNT-04   | Submit work completion           | Task in progress     | Upload completion photo → Submit     | Status set to "Completed"    | High     |
+| TC-MNT-05   | Submit fund request for task     | Assigned task        | Fill fund request form → Submit      | Request sent to treasurer    | High     |
+| TC-MNT-06   | View assigned bridge maintenance | Bridge tasks assigned| Navigate to Bridge Maintenance       | Bridge tasks listed          | Medium   |
+| TC-MNT-07   | View traffic management tasks    | Traffic tasks        | Navigate to Traffic Management       | Tasks listed                 | Medium   |
+| TC-MNT-08   | View maintenance history         | Past tasks exist     | Navigate to Maintenance History      | History displayed correctly  | Low      |
+| TC-MNT-09   | View performance report          | Logged in            | Navigate to Performance Report       | Metrics shown                | Low      |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+
+ADMIN
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-ID       | Test Case Description            | Precondition         | Steps                                | Expected Result              | Priority |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-ADM-01   | Login as admin                   | Admin account        | Enter credentials + OTP              | Admin dashboard loaded       | High     |
+| TC-ADM-02   | View incoming hazard reports     | Reports submitted    | Navigate to Incoming Reports         | All new reports listed       | High     |
+| TC-ADM-03   | Assign inspector to report       | Report validated     | Select report → Assign inspector     | Inspector notified           | High     |
+| TC-ADM-04   | Assign maintenance team          | Inspection validated | Select report → Assign team          | Team notified, task created  | High     |
+| TC-ADM-05   | Validate inspection findings     | Findings submitted   | Review findings → Approve/Reject     | Status updated accordingly   | High     |
+| TC-ADM-06   | Verify completed maintenance     | Completion submitted | Review proof → Verify                | Status finalized             | High     |
+| TC-ADM-07   | Manage user accounts             | Admin access         | Navigate to User Management → Action | User created or deactivated  | High     |
+| TC-ADM-08   | Archive resolved report          | Report completed     | Select report → Archive              | Report moved to archives     | Medium   |
+| TC-ADM-09   | Send traffic alert to residents  | Admin logged in      | Compose alert → Send                 | All residents notified       | High     |
+| TC-ADM-10   | Post public advisory             | Admin logged in      | Fill advisory form → Publish         | Advisory visible to residents| Medium   |
+| TC-ADM-11   | View report analytics            | Admin logged in      | Navigate to Report Analytics         | Charts and stats displayed   | Medium   |
+| TC-ADM-12   | Generate system report           | Date range selected  | Click Generate Report                | Report downloaded/displayed  | Medium   |
+| TC-ADM-13   | Manage fines table               | Admin logged in      | Navigate to Manage Fines → Edit      | Fine amounts updated         | Medium   |
+| TC-ADM-14   | View OVR tickets                 | Admin logged in      | Navigate to View OVR Tickets         | All tickets listed           | Medium   |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+
+TREASURER
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-ID       | Test Case Description            | Precondition         | Steps                                | Expected Result              | Priority |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-TRS-01   | Login as treasurer               | Treasurer account    | Enter credentials + OTP              | Treasurer dashboard loaded   | High     |
+| TC-TRS-02   | View pending fund requests       | Requests submitted   | Navigate to Fund Requests            | Pending requests listed      | High     |
+| TC-TRS-03   | Approve fund request             | Pending request      | Select request → Approve             | Status updated, notified     | High     |
+| TC-TRS-04   | Reject fund request with reason  | Pending request      | Select → Reject → Enter reason       | Status "Rejected", saved     | High     |
+| TC-TRS-05   | Set budget limit                 | Treasurer access     | Navigate to Set Budget Limit → Save  | Limit saved and enforced     | High     |
+| TC-TRS-06   | View budget allocations          | Logged in            | Navigate to Budget Allocations       | Allocations displayed        | Medium   |
+| TC-TRS-07   | View budget tracking dashboard   | Logged in            | Navigate to Budget Tracking          | Running totals accurate      | Medium   |
+| TC-TRS-08   | Generate financial report        | Date range input     | Click Generate                       | Report exported correctly    | Medium   |
+| TC-TRS-09   | View audit trail                 | Logged in            | Navigate to Audit Trail              | All transactions logged      | High     |
+| TC-TRS-10   | View OVR payment records         | Payments processed   | Navigate to View OVR Tickets         | Payment records listed       | Medium   |
+| TC-TRS-11   | Receive budget alert             | Budget near limit    | Check notifications                  | Alert notification received  | High     |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+
+ENGINEER
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-ID       | Test Case Description            | Precondition         | Steps                                | Expected Result              | Priority |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
+| TC-ENG-01   | Login as engineer                | Engineer account     | Enter credentials + OTP              | Engineer dashboard loaded    | High     |
+| TC-ENG-02   | View infrastructure reports      | Projects exist       | Navigate to Infra Project Reports    | Reports listed correctly     | High     |
+| TC-ENG-03   | View major projects              | Projects exist       | Navigate to Major Projects           | Projects displayed           | High     |
+| TC-ENG-04   | View project details             | Project selected     | Click project → View Details         | Full details shown           | Medium   |
+| TC-ENG-05   | Monitor maintenance progress     | Tasks in progress    | Navigate to Monitoring Updates       | Progress updates visible     | Medium   |
+| TC-ENG-06   | View bridge updates              | Bridge tasks exist   | Navigate to Bridge Updates           | Updates listed               | Medium   |
++-------------+----------------------------------+----------------------+--------------------------------------+------------------------------+----------+
